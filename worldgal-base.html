@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ja" style="height: 100%;width: 100%;">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <style>
+html{
+    background-color: white;
+    color: black;
+    font-family: '游ゴシック', 'Yu Gothic', sans-serif;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-size: 1.0em;
+}
+
+div{
+    display: flex;
+}
+
+.earth-wrapper{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.earth{
+    width: 100%;
+    min-width: 30px;
+    min-height: 30px;
+    box-sizing: border-box;
+    aspect-ratio: 1.0;
+    transform: rotate(-15deg);
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 50%;
+    position: relative;
+    perspective: 800px;
+}
+.earth::before{
+    /*緯線*/
+    content: " ";
+    width: 100%;
+    height: 20%;
+    top:40%;
+    border-top: 1px dotted black;
+    border-bottom: 1px solid black;
+    border-radius: 50%;
+    position: absolute;
+}
+.earth-meridian{
+    /*経線*/
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 84%;
+    top: 8%;
+    position: absolute;
+    border-radius: 50%;
+    border-top: 1px dotted black;
+    border-bottom: 1px solid black;
+}
+.earth-meridian::after,.earth-meridian::before{
+    content: " ";
+    position: absolute;
+    width: 100%;
+    border-radius: 50%;
+}
+.earth-meridian::after{
+    height: 66.4%;
+    top:16.6%;
+    border-bottom: 1px dotted black;
+    border-top: 1px solid black;
+}
+.earth-meridian::before{
+    height: 33.2%;
+    top: 33.2%;
+    border-top: 1px dotted black;
+    border-bottom: 1px solid black;
+}
+
+
+header{
+    margin: 0;
+    padding: 10px;
+    /*background-color: powderblue;
+    color: cadetblue;*/
+    font-family: '游明朝' ,Arial, Helvetica, sans-serif;
+    display: block;
+    width: 100%;
+    position: fixed;
+    top:0;
+    left:0;
+    z-index: 2;
+    border-bottom: 2px solid black;    
+    background-color: white;
+    min-width: 330px;
+}
+header .earth-wrapper{
+    width: 2.0em;
+}
+header .h-title{
+    cursor: pointer;
+}
+@media screen and (max-width:500px){
+    header .h-main{
+        display: block;
+    }
+}
+header h1{
+    margin: 0;
+    padding: 0;
+    font-size: 1.3em;
+}
+nav ul li{
+    cursor: pointer;
+}
+#note-teller-title{
+    margin:auto 30px 0 auto;
+    cursor: pointer;
+}
+#note-list{
+    display: block;
+}
+.bg{
+    opacity: 0.5;
+    position: fixed;
+    z-index: -10;
+    width: 92%;
+    left: 4%;
+}
+.bg.fade-out{
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0.3;
+}
+@media screen and (min-width:700px){
+    .bg{
+        width: 60%;
+        left: 20%;
+    }
+}
+.bg .earth-wrapper{
+    width: 100%;
+}
+#top-margin{
+    width: 80%;
+    padding: 10%;
+    aspect-ratio: 2.0;
+    max-height: 600px;
+    position: relative;
+}
+.text-circle{
+    position: absolute;
+}
+.main-title{
+    font-size: 0.8em;
+    font-weight: bold;
+}
+.highlight{position: relative;}
+.highlight::before{
+    content: "";
+    opacity: 0.8;
+    background-color: pink;
+    position: absolute;
+    border-radius: 5px;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top:0;left: 0;
+}
+.cav{
+    width: 100%;
+}
+.abs{
+    position: absolute;
+}
+#title-rota-wrapper{
+    width: 100%;
+    transform: rotate(-90deg);
+}
+section{
+    margin: 10px 3% 3% 3%;
+    padding: 1%;
+    z-index: 0;
+    position: relative;
+    box-sizing: border-box;
+}
+main{
+    margin: 5.5em 2% 10px 2%;
+    padding: 0;
+    width: 96%;
+}
+section::after{
+    content: " ";
+    background-color: aquamarine;
+    opacity: 0.3;
+    position: absolute;
+    top: 0;
+    left:-2%;
+    width: 104%;
+    height: 100%;
+    border-radius: 10px;
+    z-index: -9;
+}
+section h1{
+    margin: 10px 1%;
+    padding-left: 1%;
+    border-left: 3px solid blue;
+}
+section h2{
+    margin: 5px 1%;
+    padding-left: 1%;
+    border-left: 8px double blue;
+}
+section h3{
+    margin: 5px 1%;
+    border-bottom: 2px dotted skyblue;
+}
+section h3::before{
+    content: "#";
+    color: skyblue;
+}
+.skip,nav ul li{
+    cursor: pointer;
+    border-bottom: 1px solid gray;
+}
+.skip::before,nav ul li::marker{
+    content: ">>";
+}
+strong{
+    text-decoration: underline solid red;
+    font-weight: bold;
+}
+dt{
+    border-bottom: 1px solid cadetblue;
+    font-weight: bold;
+}
+main small{
+    font-size: 0.7em;
+    padding: 0;
+    margin: 1%;
+}
+.subsection{
+    position: relative;
+}
+.subsection::after{
+    content: " ";
+    background-color: blue;
+    opacity: 0.1;
+    position: absolute;
+    top: 0;
+    left:-1%;
+    width: 102%;
+    height: 100%;
+    border-radius: 5px;
+    z-index: -3;
+}
+summary{
+    cursor: pointer;
+    font-size: small;
+}
+main summary::after{
+    content: " : クリックして詳細を開く";
+    font-size: small;
+    color: gray;
+}
+
+.rewrite-rotate{
+    aspect-ratio: 1.0;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.historyBox{
+    padding: 3px;
+    position: relative;
+    margin: 1% 0;
+}
+.historyBox::after{
+    content: " ";
+    background-color: darkcyan;
+    opacity: 0.2;
+    top:0;
+    left: -1%;
+    width: 102%;
+    height: 100%;
+    z-index: -2;
+    position: absolute;
+    border-radius: 10px;
+}
+.historyBox h1 {
+    border-left: 3px solid crimson;
+}
+.note::before,#note-teller-title[class="active"]::before{
+    content: "!:";
+    color: red;
+    font-weight: bold;
+}
+p{
+    margin: 1px 3px 1px 20px ;
+}
+
+table{
+    width: 100%;
+}
+.table-cal{
+    top: 2.1em;
+    position: relative;
+    margin-bottom: 2.3em;
+}
+.table-cal::before{
+    top:-1.9em;
+    left: 0;
+    content: "スケジュール";
+    font-weight: bolder;
+    border-bottom: 2px solid cadetblue;
+    border-left: 5px solid cadetblue;
+    padding: 0 20px;
+    box-sizing: border-box;
+    width: 100%;
+    position: absolute;
+}
+th,td{
+    border-bottom: 3px solid cadetblue;
+    border-top: 3px solid cadetblue;
+    margin: 2px 0;
+    padding: 0 5px;
+    text-align: right;
+}
+
+.hidden{
+    display: none;
+}
+    </style>
+    </head>
+    <body>
+        <header>
+            <div class="h-main">
+            <div class="h-title" onclick="ToggleDisplay(document.getElementById('navigation'));">
+                <div class="earth-wrapper">
+                    <div class="earth"><div class="earth-meridian"></div></div>
+                </div>
+                <h1>ワールドギャラリー</h1>
+            </div>
+            <small id="note-teller-title" class="hidden">件のお知らせ</small>
+            </div>
+            <nav id="navigation" class="hidden">
+                <p>目次</p>
+                <ul>
+                </ul>
+                <!-- 背景色<input type="text" id="t1c1" onchange="document.querySelector('.h-title').style.backgroundColor=this.value"><br>
+                文字色<input type="text" id="t1c2" onchange="document.querySelector('.h-title').style.color=this.value"> -->
+            </nav>
+            <div id="note-l-wrapper" class="hidden"><div id="note-list"><p>お知らせ</p></div></div>
+        </header>
+        <div class="bg">
+            <div class="earth-wrapper">
+                <div class="rewrite-rotate rewrite-trf-50 abs" id="title-rota-wrapper">
+                    <span class="rewrite-circle rewrite-center-per-5-50 rewrite-r-per-90 main-title">AI Battler   World Gallery           </span>
+                </div>
+                <div class="earth"><div class="earth-meridian"></div></div>
+            </div>
+        </div>
+        <main>
+            <div id="top-margin"></div>
+            <section>
+                <p><strong>※お題統一ワールドギャラリーは<a href="https://sites.google.com/view/ai-battler-world-gallery/events/e1/home">こちら</a>へ移動しました。</strong></p>
+            </section>
+        </main>
+        <script>
+            function ToggleDisplay(tar){
+                if(tar.classList.contains('hidden')){tar.classList.remove('hidden');}
+                else {tar.classList.add('hidden');}
+            }
+            function ScrollSS(id){
+                ScrollElm(document.getElementById(id));
+            }
+            function ScrollElm(el){
+                const targetPosition = el.getBoundingClientRect().top + window.pageYOffset - 100;
+                window.scrollTo({top:targetPosition,left:0,behavior:"smooth"});
+                el.classList.add('highlight');
+                setTimeout(()=>{el.classList.remove('highlight');},1000);
+            }
+            function TextRewriteCircle(){
+                document.querySelectorAll(".rewrite-circle").forEach((el,num,par)=>{
+                    let arg=360/ el.textContent.length;
+                    let content=el.textContent;
+                    let classlist=el.classList;
+                    let t,l,r;
+                    classlist.forEach((str,num)=>{
+                        let m=str.match(/rewrite-center-per-(\d+)-(\d+)/);
+                        if(!m)return;
+                        t=m[1];l=m[2];
+                    });
+                    classlist.forEach((str)=>{
+                        let m=str.match(/rewrite-r-per-(\d+)/);
+                        if(!m)return;
+                        r=m[1];
+                    });
+                    let parent=el.parentElement;
+                    el.remove();
+                    for(let i=0;i<content.length;++i){
+                        if(content[i]==" ")continue;
+                        let child=document.createElement("span");
+                        child.classList=el.classList;
+                        child.classList.add("text-circle");
+                        child.classList.add("text-circle-dt-"+String(content.length)+"-"+String(i));
+                        child.style.transform="rotate("+String(arg*i)+"deg)";
+                        child.style.top=String(t)+"%";
+                        child.style.left=String(l)+"%";
+                        child.textContent=content[i];
+                        child.style.height=String(r)+"%";
+                        parent.appendChild(child);
+                    }
+                });
+            }
+            function TextRewriteRote(){
+                document.querySelectorAll(".rewrite-rotate").forEach((el)=>{
+                    let t=10;
+                    el.classList.forEach((str)=>{
+                        let m=str.match(/rewrite-trf-(\d+)/);
+                        if(!m)return;
+                        t=m[1];
+                    });
+                    el.style.transition="none";
+                    el.style.transform="rotate(-90deg)";
+                    setTimeout(()=>Rotater(el,t,0),1);
+                });
+            }
+            function Rotater(el,t,num){
+                console.log(el,num);
+                if(!el)return;
+                el.style.transition="transform "+String(t)+"s linear";
+                el.style.transform="rotate(-450deg)";
+                el.addEventListener("transitionend",()=>{
+                    el.style.transition="none";
+                    el.style.transform="rotate(-90deg)";
+                    setTimeout(()=>{
+                        /*Rotater(el,t,num+1);*/Rotater
+                        el.style.transition="transform "+String(t)+"s linear";
+                        el.style.transform="rotate(-450deg)";
+                    },1);
+                });
+            }
+            function NoteTellerSetter(){
+                let notes=document.querySelectorAll(".note");
+                if(notes.length===0)return;
+                let tle=document.getElementById("note-teller-title");
+                tle.classList.remove("hidden");
+                tle.classList.add("active");
+                tle.textContent=String(notes.length)+tle.textContent;
+                tle.addEventListener("click",()=>{ToggleDisplay(document.getElementById('note-l-wrapper'));});
+                let dtl=document.getElementById("note-list");
+                notes.forEach((el)=>{
+                    let cr=document.createElement("p");
+                    cr.classList.add("skip");
+                    cr.textContent=el.textContent;
+                    dtl.appendChild(cr);
+                    cr.addEventListener("click",()=>ScrollElm(el));
+                })
+            }
+            NoteTellerSetter();
+            try{document.getElementById("js-note").remove();}catch(e){console.log("no js-note?");}
+            TextRewriteCircle();
+            TextRewriteRote();
+            window.scrollTo(0,0);
+        </script>
+    </body>
+</html>
